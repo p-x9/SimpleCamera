@@ -755,7 +755,7 @@ public final class SimpleCamera: NSObject, SimpleCameraInterface {
     private var isConfigured: Bool = false
 
     private func configure() { // この configure 実行でカメラの許可ダイアログが出る
-        if isConfigured || (TARGET_OS_SIMULATOR != 0) {
+        if isConfigured || targetEnvironment(simulator) {
             return
         }
         defer {
@@ -902,7 +902,7 @@ public final class SimpleCamera: NSObject, SimpleCameraInterface {
     }
 
     private func tearDown() {
-        if !isConfigured || (TARGET_OS_SIMULATOR != 0) {
+        if !isConfigured || targetEnvironment(simulator) {
             return
         }
 
