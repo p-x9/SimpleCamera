@@ -755,7 +755,8 @@ public final class SimpleCamera: NSObject, SimpleCameraInterface {
     private var isConfigured: Bool = false
 
     private func configure() { // この configure 実行でカメラの許可ダイアログが出る
-        if isConfigured || targetEnvironment(simulator) {
+#if !targetEnvironment(simulator)
+        if isConfigured {
             return
         }
         defer {
@@ -899,10 +900,12 @@ public final class SimpleCamera: NSObject, SimpleCameraInterface {
         sessionQueue.sync {
             addObservers()
         }
+#endif
     }
 
     private func tearDown() {
-        if !isConfigured || targetEnvironment(simulator) {
+#if !targetEnvironment(simulator)
+        if !isConfigured {
             return
         }
 
@@ -928,6 +931,7 @@ public final class SimpleCamera: NSObject, SimpleCameraInterface {
             audioDeviceInput = nil
             isConfigured = false
         }
+#endif
     }
 
     // MARK: KVO and Notifications
